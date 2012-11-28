@@ -7,6 +7,10 @@ gem 'rails', '3.2.8'
 
 # gem 'sqlite3'
 
+#interface
+gem 'html5-rails'
+gem 'haml-rails'
+
 group :development, :test do
 	gem 'pg'
 	gem 'rspec-rails', '2.11.0'
@@ -17,7 +21,10 @@ end
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '3.2.5'
+  gem 'bootstrap-sass', '~> 2.0.4.0'
   gem 'coffee-rails', '3.2.2'
+  gem 'haml_coffee_assets'
+  gem 'haml_assets'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
