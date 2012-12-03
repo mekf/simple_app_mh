@@ -6,13 +6,14 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-    %script(type="text/javascript"
-    		src="http://html5shim.googlecode.com/svn/trunk/html5.js")
+    / [if lt IE 9]
+      %script(type="text/javascript"
+      		  src="http://html5shim.googlecode.com/svn/trunk/html5.js")
   %body
     %header.navbar.navbar-fixed-top.navbar-inverse
       .navbar-inner
         .container
-          = link_to 'Sample App', root_url
+          = link_to 'Sample App', root_url, id: "logo"
           %nav
             %ul.nav.pull-right
               %li= link_to 'Home', static_pages_home_path

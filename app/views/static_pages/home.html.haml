@@ -1,7 +1,18 @@
 / - provide(:title, 'Home')
-%h1 Sample App
+.center.hero-unit
+  %h1 Welcome to the Sample App
 
-/Playing with escaped slash
+  %h2
+    This is the home page for the
+    #{link_to 'Ruby on Rails Tutorial', 'httpL//railstutorial.org/'}
+    sample application.
+
+  = link_to 'Sign up now!', '#', class: "btn btn-large btn-primary"
+
+= link_to image_tag("rails.png", alt: "Rails"), 'http://rubyonrails.org/'
+
+%h1 MISC STUFFS
+%p Playing with escaped slash
 \= @title
 %p Simple app tutorial by Michael Hartl
 %a{href: 'http://railstutorial.org'} Ruby on Rails Tutorial | new hash style href:
