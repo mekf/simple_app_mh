@@ -14,6 +14,10 @@ describe "StaticPages" do
 			page.should have_selector('title',
 				:text => "#{base_title}")
 		end
+		it "should have the escaped variable '= @title'" do
+			visit '/static_pages/home'
+			page.should have_content('= @title')
+		end
 	end
 
 	describe "Help page" do
