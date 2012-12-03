@@ -1,11 +1,17 @@
-SimpleAppMhartlKatze::Application.routes.draw do
+SimpleAppMhartlKatze::Application.routes.draw do  
+  get 'users/new'
+
+  #Static_pages
   root :to => 'static_pages#home'
-  
+
   match '/about', to: 'static_pages#about'
   match '/help', to: 'static_pages#help'
   match '/contact', to: 'static_pages#contact'
   match '/misc', to: 'static_pages#misc'
   
+  #Users
+  match 'signup', to: 'users#new'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
