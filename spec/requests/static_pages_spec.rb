@@ -18,6 +18,14 @@ describe "StaticPages" do
 			visit '/static_pages/home'
 			page.should have_content('= @title')
 		end
+		it "should have hash style NEW" do
+			visit '/static_pages/home'
+			page.should have_selector('a', text: '| new')
+		end
+		it "should have hash style OLD" do
+			visit '/static_pages/home'
+			page.should have_selector('a', :text => '| old')
+		end
 	end
 
 	describe "Help page" do
