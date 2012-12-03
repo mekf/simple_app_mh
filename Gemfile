@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -21,7 +21,7 @@ end
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '3.2.5'
-  gem 'bootstrap-sass', '~> 2.1'
+  gem 'bootstrap-sass', '2.1'
   gem 'coffee-rails', '3.2.2'
   gem 'haml_coffee_assets'
   gem 'haml_assets'
