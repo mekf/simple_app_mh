@@ -1,5 +1,13 @@
 @import "bootstrap";
 
+/* mixins, variables, etc. */
+
+/* There should be @grayLight: #999; in the bootstrap library therefore defining the folowing color is not necessary */
+/* $lightGray: #999; */
+
+$grayMediumLight: #eaeaea;
+$grayDarker: #222;
+
 /* universal */
 
 html {
@@ -18,12 +26,22 @@ textarea {
   resize: vertical;
 }
 
+/* OLD center style
 .center {
   text-align: center;
 }
 
 .center h1 {
   margin-bottom: 10px;
+}
+OLD center style*/
+
+/*NEW center style*/
+.center {
+  text-align: center;
+  h1 {
+    margin-bottom: 10px;
+  }
 }
 
 /* typography */
@@ -45,7 +63,7 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: #999;
+  color: $grayLight;
 }
 
 p {
@@ -55,6 +73,7 @@ p {
 
 /* header */
 
+/* OLD logo style
 #logo {
   float: left;
   margin-right: 10px;
@@ -71,34 +90,46 @@ p {
   color: #fff;
   text-decoration: none;
 }
+OLD logo style */
 
+/* NEW logo style */
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  line-height: 1;
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+}
 /* footer */
 
 footer {
   margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid #eaeaea;
-  color: #999;
-}
-
-footer a {
-  color: #555;
-}  
-
-footer a:hover { 
-  color: #222;
-}
-
-footer small {
-  float: left;
-}
-
-footer ul {
-  float: right;
-  list-style: none;
-}
-
-footer ul li {
-  float: left;
-  margin-left: 10px;
+  border-top: 1px solid $grayMediumLight;
+  color: $grayLight;
+  a {
+    color: $gray;
+    &:hover {
+      color: $grayDarker;
+    }
+  }
+  small {
+    float: left;
+  }
+  ul {
+    float: right;
+    list-style: none;
+    li {
+      float: left;
+      margin-left: 10px;
+    }
+  }
 }

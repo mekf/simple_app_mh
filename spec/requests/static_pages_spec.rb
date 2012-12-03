@@ -2,65 +2,59 @@ require 'spec_helper'
 
 describe "StaticPages" do
 
-	let(:base_title) {"Ruby on Rails Tutorial Sample App"}
+	#check http://ruby.railstutorial.org/chapters/filling-in-the-layout#sec-pretty_rspec
+	#listing 5.2.6
+	#let(:base_title) {"Ruby on Rails Tutorial Sample App"}
 
+	subject { page }
+	
 	describe "Home page" do
-		it "should have the h1 content 'Sample App'" do
-			visit '/static_pages/home'
-			page.should have_selector('h1', :text => 'Sample App')
-		end
-		it "should have the base title only" do
-			visit '/static_pages/home'
-			page.should have_selector('title',
-				:text => "#{base_title}")
-		end
-		it "should have the escaped variable '= @title'" do
-			visit '/static_pages/home'
-			page.should have_content('= @title')
-		end
-		it "should have hash style NEW" do
-			visit '/static_pages/home'
-			page.should have_selector('a', text: '| new')
-		end
-		it "should have hash style OLD" do
-			visit '/static_pages/home'
-			page.should have_selector('a', :text => '| old')
-		end
+		before { visit root_path }
+		
+		it { should have_selector('h1', text: "Sample App") }
+		it { should have_selector('title', text: full_title('')) }
+		#getting full_title from spec/support
+
+		#it { should have_selector('title', text: "#{base_title}") }
+		#it { should_not have_selector('title', text: '| Home') }
+
 	end
 
 	describe "Help page" do
-		it "should have the h1 content 'Help'" do
-			visit '/static_pages/help'
-			page.should have_selector('h1', :text => 'Help')
-		end
-		it "should have title 'Help'" do
-			visit '/static_pages/help'
-			page.should have_selector('title',
-				:text => "#{base_title} | Help")
-		end
+		before { visit help_path }
+		
+		it { should have_selector('h1', text: "Help") }
+		it { should have_selector('title', text: full_title('Help')) }
+
 	end
 	
 	describe "About page" do
-		it "should have the h1 content 'About Us'" do
-			visit '/static_pages/about'
-			page.should have_selector('h1', :text => 'About Us')
-		end
-		it "should have title 'About Us'" do
-			visit '/static_pages/about'
-			page.should have_selector('title',
-				:text => "#{base_title} | About Us")
-		end
+		before { visit about_path }
+
+		it { should have_selector('h1', text: "About") }
+		it { should have_selector('title', text: full_title('About')) }
+
 	end
 
 	describe "Contact page" do
-		it "should have the h1 content 'Contact Us'" do
-			visit '/static_pages/contact'
-			page.should have_selector('h1', :text => 'Contact Us')
+		before { visit contact_path }
+
+		it { should have_selector('h1', text: "Contact") }
+		it { should have_selector('title', text: full_title('Contact')) }
+		
+	end
+
+	describe "MISC Home Old page" do
+		before { visit misc_path }
+
+		it "should have the escaped variable '= @title'" do
+			page.should have_content('= @title')
 		end
-		it "it should have title 'Contact Us'" do
-			visit '/static_pages/contact'
-			page.should have_selector('title',
-				:text => "#{base_title} | Contact Us")
+		it "should have hash style NEW" do
+			page.should have_selector('a', text: '| new')
+		end
+		it "should have hash style OLD" do
+			page.should have_selector('a', :text => '| old')
 		end
 	end
 end
