@@ -1,5 +1,6 @@
 -provide(:title, @user.name)
-= gravatar_for @user
-%h1= @user.name
-%br/
-= @user.email
+.row
+  %aside.span4
+    .section
+      %h1= gravatar_for @user
+      %h1= @user.name

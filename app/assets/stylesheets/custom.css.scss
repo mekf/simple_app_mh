@@ -148,3 +148,31 @@ footer {
     }
   }
 }
+
+/* sidebar */
+aside {
+  section {
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:first-child {
+      border: 0;
+      padding: 0 0 0 0;
+    }
+    span {
+      display: block;
+      line-height: 1;
+      margin: 0 0 3px 0;
+    }
+    h1 {
+      font-size: 1.4em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin: 0 0 3px 0;
+    }
+  }
+}
+
+.gravatar {
+  float: left;
+  margin: 0 10px 0 0;
+}
