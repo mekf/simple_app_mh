@@ -1,5 +1,5 @@
-SimpleAppMhartlKatze::Application.routes.draw do  
-  get 'users/new'
+SimpleAppMhartlKatze::Application.routes.draw do
+  resources :users
 
   #Static_pages
   root to: 'static_pages#home'
@@ -8,7 +8,7 @@ SimpleAppMhartlKatze::Application.routes.draw do
   match '/help', to: 'static_pages#help'
   match '/contact', to: 'static_pages#contact'
   match '/misc', to: 'static_pages#misc'
-  
+
   #Users
   match 'signup', to: 'users#new'
 
