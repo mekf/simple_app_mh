@@ -13,8 +13,10 @@
 require 'spec_helper'
 
 describe User do
-  before { @user = User.new(name: "Tester", email: "tester@example.com",
-                            password: "foobar", password_confirmation: "foobar") }
+  before do
+    @user = User.new(name: "Tester", email: "tester@example.com",
+                     password: "foobar", password_confirmation: "foobar")
+  end
 
   subject { @user }
 
@@ -23,6 +25,7 @@ describe User do
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
+  it { should respond_to(:authenticate) }
 
   it { should be_valid }
 
@@ -48,7 +51,7 @@ describe User do
       addresses.each do |invalid_address|
         @user.email = invalid_address
         @user.should_not be_valid
-      end      
+      end
     end
   end
 
@@ -58,7 +61,7 @@ describe User do
       addresses.each do |valid_address|
         @user.email = valid_address
         @user.should be_valid
-      end      
+      end
     end
   end
 
@@ -70,5 +73,52 @@ describe User do
     end
 
     it { should_not be_valid }
+  end
+
+  describe "user with mixed case email" do
+    let(:mixed_case_email) { "Foo@EXAMPLE.com" }
+
+    it "should be saved as lower case" do
+      @user.email = mixed_case_email
+      @user.save
+      @user.reload.email.should == mixed_case_email.downcase
+    end
+  end
+
+  describe "when password is blank" do
+    before { @user.password = @user.password_confirmation = "" }
+    it { should_not be_valid }
+  end
+
+  describe "when password mismatch" do
+    before { @user.password_confirmation = "mismatch" }
+    it { should_not be_valid }
+  end
+
+  describe "when the password_confirmation is nil" do
+    before { @user.password_confirmation = nil }
+    it { should_not be_valid }
+  end
+
+  describe "authenticate user" do
+    before { @user.save }
+    let(:queried_user) { User.find_by_email(@user.email) }
+
+    describe "user with valid password" do
+      it { should == queried_user.authenticate(@user.password) }
+    end
+
+    describe "user with invalid password" do
+      let(:invalid_pwd_user) { queried_user.authenticate("invalid") }
+
+      it { should_not == invalid_pwd_user }
+      specify { invalid_pwd_user.should be_false }
+    end
+
+    describe "user with short password" do
+      before { @user.password = @user.password_confirmation = "a" * 5 }
+      #it { should be_invalid }
+      it { should_not be_valid }
+    end
   end
 end

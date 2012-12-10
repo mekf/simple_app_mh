@@ -2,7 +2,7 @@ SimpleAppMhartlKatze::Application.routes.draw do
   get 'users/new'
 
   #Static_pages
-  root :to => 'static_pages#home'
+  root to: 'static_pages#home'
 
   match '/about', to: 'static_pages#about'
   match '/help', to: 'static_pages#help'
