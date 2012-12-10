@@ -1,5 +1,6 @@
 SimpleAppMhartlKatze::Application.routes.draw do
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
 
   #Static_pages
   root to: 'static_pages#home'
@@ -11,6 +12,8 @@ SimpleAppMhartlKatze::Application.routes.draw do
 
   #Users
   match 'signup', to: 'users#new'
+  match 'signin', to: 'sessions#new'
+  match 'signout', to: 'sessions#destroy', via: :delete
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
