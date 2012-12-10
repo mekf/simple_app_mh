@@ -10,9 +10,15 @@
   %body
     = render partial: 'layouts/header'
     .container
+      / OLD STYLE
       - flash.each do |key, value|
         .alert{ class: "alert-#{key}" }
           = value
+
+      /NEW STYLE - STILL CANNOT GET IT TO WORK
+      / - flash.each do |key,value|
+      /   = content_tag :div, value, class: "alert-#{key}"
+
       = yield
       = render partial: 'layouts/footer'
       = debug(params) if Rails.env.development?
