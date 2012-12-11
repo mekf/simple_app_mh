@@ -10,6 +10,15 @@ def full_title(page_title)
 	end
 end
 
+def invalid_emails(addresses)
+  addresses = %w[user@foo,com user_at_foo.org example.user@foo.
+                 foo@bar_baz.com foo@bar+baz.com]
+end
+
+def valid_emails(addresses)
+  addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
+end
+
 def fill_valid_info(user)
   fill_in "Email", with: user.email
   fill_in "Password", with: user.password
