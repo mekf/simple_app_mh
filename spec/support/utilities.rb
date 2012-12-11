@@ -9,3 +9,9 @@ def full_title(page_title)
     	"#{base_title} | #{page_title}"
 	end
 end
+
+def fill_valid_info(user)
+  fill_in "Email", with: user.email
+  fill_in "Password", with: user.password
+  click_button 'Sign in'
+end
