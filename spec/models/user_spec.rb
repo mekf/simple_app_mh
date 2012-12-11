@@ -13,14 +13,15 @@
 require 'spec_helper'
 
 describe User do
-  before do
-    @user = User.new(name: "Tester", email: "tester@example.com",
-                     password: "foobar", password_confirmation: "foobar")
-  end
-
   # before do
-  #   @user = FactoryGirl.create(:user)
+  #   @user = User.new(name: "Tester", email: "tester@example.com",
+  #                    password: "foobar", password_confirmation: "foobar",
+  #                    remember_token: "L4QywjQ7Taxzc1YehFQGoA")
   # end
+
+  before do
+    @user = FactoryGirl.build(:user)
+  end
 
   subject { @user }
 
