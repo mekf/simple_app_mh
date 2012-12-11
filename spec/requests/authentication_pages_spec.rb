@@ -14,17 +14,18 @@ describe "Authentication" do
   describe "signin" do
     before { visit signin_path }
     let(:submit) { "Sign in" }
+    # get the Matcher: have_error_message from utilities.rb
 
     describe "with invalid information" do
       before { click_button submit }
 
       it { should have_selector('title', text: 'Sign In') }
-      it { should have_selector('div.alert.alert-error', text: 'Invalid') }
+      it { should have_error_message('Invalid') }
 
       describe "after visiting another page" do
         before { click_link "Home" }
 
-        it { should_not have_selector('div.alert.alert-error', text: 'Invalid') }
+        it { should_not have_error_message('Invalid') }
       end
     end
 
