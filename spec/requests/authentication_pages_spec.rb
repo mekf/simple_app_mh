@@ -37,8 +37,7 @@ describe "Authentication" do
       end
 
       it { should have_selector('title', text: user.name) }
-      #TODO why is it failing now?
-      #it { should have_link('Profile', user_path(user)) }
+      it { should have_link('Profile', href: user_path(user)) }
       it { should have_link('Sign out', href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
 
