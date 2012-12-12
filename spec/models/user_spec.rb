@@ -14,9 +14,7 @@ require 'spec_helper'
 
 describe User do
   # before do
-  #   @user = User.new(name: "Tester", email: "tester@example.com",
-  #                    password: "foobar", password_confirmation: "foobar",
-  #                    remember_token: "L4QywjQ7Taxzc1YehFQGoA")
+  #   @user = User.new( all relevant hashes )
   # end
 
   before do

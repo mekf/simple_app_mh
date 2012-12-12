@@ -1,4 +1,5 @@
 require 'spec_helper'
+# get the Matcher: have_error_message, have_success_message from utilities.rb
 
 describe "Authentication" do
 
@@ -14,7 +15,6 @@ describe "Authentication" do
   describe "signin" do
     before { visit signin_path }
     let(:submit) { "Sign in" }
-    # get the Matcher: have_error_message from utilities.rb
 
     describe "with invalid information" do
       before { click_button submit }

@@ -1,14 +1,21 @@
 require 'spec_helper'
+# get the Matcher: have_error_message, have_success_message from utilities.rb
 
 describe "User Pages" do
 
   subject { page }
 
+  shared_examples_for "All User Pages" do
+    it { should have_selector('h1', text: heading) }
+    it { should have_selector('title', text: full_title(title)) }
+  end
+
   describe "User Sign Up" do
     before { visit signup_path }
+    let(:heading) { 'Sign Up' }
+    let(:title) { 'Sign Up' }
 
-      it { should have_selector('h1', text: "Sign Up") }
-      it { should have_selector('title', text: full_title('Sign Up')) }
+    it_should_behave_like "All User Pages"
   end
 
   describe "signup" do
@@ -21,9 +28,11 @@ describe "User Pages" do
       end
 
       describe "after submission" do
+        let(:heading) { 'Sign Up' }
+        let(:title) { 'Sign Up' }
         before { click_button submit }
 
-        it { should have_selector('title', text: 'Sign Up' )}
+        it_should_behave_like "All User Pages"
         it { should have_content('error' )}
       end
     end
@@ -43,9 +52,11 @@ describe "User Pages" do
       describe "after saving the user" do
         before { click_button submit }
         let(:user) { User.find_by_email('user@example.com') }
+        let(:heading) { user.name }
+        let(:title) { user.name }
 
-        it { should have_selector('h1', text: user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it_should_behave_like "All User Pages"
+        it { should have_success_message('Welcome') }
         it { should have_link('Sign out', href: signout_path) }
       end
     end
@@ -54,8 +65,9 @@ describe "User Pages" do
   describe "Profile Page" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit user_path(user) }
+    let(:heading) { user.name }
+    let(:title) { user.name }
 
-      it { should have_selector('h1', text: user.name) }
-      it { should have_selector('title', text: user.name) }
+    it_should_behave_like "All User Pages"
   end
 end
