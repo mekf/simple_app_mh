@@ -10,7 +10,7 @@ describe "User Pages" do
     it { should have_selector('title', text: full_title(title)) }
   end
 
-  describe "User Sign Up" do
+  describe "Sign Up Page" do
     before { visit signup_path }
     let(:heading) { 'Sign Up' }
     let(:title) { 'Sign Up' }
@@ -18,7 +18,7 @@ describe "User Pages" do
     it_should_behave_like "All User Pages"
   end
 
-  describe "signup" do
+  describe "signup process" do
     before { visit signup_path }
     let(:submit) { "Create my account" }
 
@@ -39,10 +39,11 @@ describe "User Pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name", with: "Example User"
-        fill_in "Email", with: "user@example.com"
-        fill_in "Password", with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        @user = FactoryGirl.build(:user)
+        fill_in "Name", with: @user.name
+        fill_in "Email", with: @user.email
+        fill_in "Password", with: @user.password
+        fill_in "Confirmation", with: @user.password_confirmation
       end
 
       it "should create a user" do
@@ -51,7 +52,7 @@ describe "User Pages" do
 
       describe "after saving the user" do
         before { click_button submit }
-        let(:user) { User.find_by_email('user@example.com') }
+        let(:user) { User.find_by_email(@user.email) }
         let(:heading) { user.name }
         let(:title) { user.name }
 

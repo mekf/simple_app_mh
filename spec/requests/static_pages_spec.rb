@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe "StaticPages" do
+describe "Static Pages" do
 
 	#check http://ruby.railstutorial.org/chapters/filling-in-the-layout#sec-pretty_rspec
 	#listing 5.2.6
 	#let(:base_title) {"Ruby on Rails Tutorial Sample App"}
 
 	subject { page }
-	
-	shared_examples_for "all static pages" do
+
+	shared_examples_for "All Static Pages" do
 		it { should have_selector('h1', text: heading) }
 		it { should have_selector('title', text: full_title(page_title)) }
 	end
@@ -32,9 +32,9 @@ describe "StaticPages" do
 		let(:heading)	{ 'Sample App' }
 		let(:page_title) { '' }
 
-		it_should_behave_like "all static pages"
+		it_should_behave_like "All Static Pages"
 		it { should_not have_selector('title', text: '| Home') }
-		
+
 		#redundant since 5.35
 		# it { should have_selector('h1', text: "Sample App") }
 		# it { should have_selector('title', text: full_title('')) }
@@ -50,15 +50,15 @@ describe "StaticPages" do
 		let(:heading) { 'Help' }
 		let(:page_title) { 'Help' }
 
-		it_should_behave_like "all static pages"
+		it_should_behave_like "All Static Pages"
 	end
-	
+
 	describe "About page" do
 		before { visit about_path }
 		let(:heading) { 'About Us' }
 		let(:page_title) { 'About Us' }
 
-		it_should_behave_like "all static pages"
+		it_should_behave_like "All Static Pages"
 	end
 
 	describe "Contact page" do
@@ -66,7 +66,7 @@ describe "StaticPages" do
 		let(:heading) { 'Contact' }
 		let(:page_title) { 'Contact' }
 
-		it_should_behave_like "all static pages"
+		it_should_behave_like "All Static Pages"
 	end
 
 	describe "MISC Home Old page" do
