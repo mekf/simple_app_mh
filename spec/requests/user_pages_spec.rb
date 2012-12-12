@@ -33,17 +33,14 @@ describe "User Pages" do
         before { click_button submit }
 
         it_should_behave_like "All User Pages"
-        it { should have_content('error' )}
+        it { should have_content('error') }
       end
     end
 
     describe "with valid information" do
       before do
-        @user = FactoryGirl.build(:user)
-        fill_in "Name", with: @user.name
-        fill_in "Email", with: @user.email
-        fill_in "Password", with: @user.password
-        fill_in "Confirmation", with: @user.password_confirmation
+        @signup_user = FactoryGirl.build(:user)
+        fill_valid_signup_info(@signup_user) #utilities.rb
       end
 
       it "should create a user" do
@@ -52,7 +49,7 @@ describe "User Pages" do
 
       describe "after saving the user" do
         before { click_button submit }
-        let(:user) { User.find_by_email(@user.email) }
+        let(:user) { User.find_by_email(@signup_user.email) }
         let(:heading) { user.name }
         let(:title) { user.name }
 

@@ -34,15 +34,6 @@ describe "Static Pages" do
 
 		it_should_behave_like "All Static Pages"
 		it { should_not have_selector('title', text: '| Home') }
-
-		#redundant since 5.35
-		# it { should have_selector('h1', text: "Sample App") }
-		# it { should have_selector('title', text: full_title('')) }
-		#getting full_title from spec/support
-
-		#redundant since 5.27
-		#it { should have_selector('title', text: "#{base_title}") }
-		#it { should_not have_selector('title', text: '| Home') }
 	end
 
 	describe "Help page" do

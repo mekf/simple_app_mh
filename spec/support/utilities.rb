@@ -19,10 +19,17 @@ def valid_emails(addresses)
   addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
 end
 
-def fill_valid_info(user)
+def filled_valid_signin_info(user)
   fill_in "Email", with: user.email
   fill_in "Password", with: user.password
   click_button 'Sign in'
+end
+
+def fill_valid_signup_info(user)
+  fill_in "Name", with: user.name
+  fill_in "Email", with: user.email
+  fill_in "Password", with: user.password
+  fill_in "Confirmation", with: user.password_confirmation
 end
 
 RSpec::Matchers.define :have_error_message do |msg|
