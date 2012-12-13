@@ -10,6 +10,15 @@ describe "User Pages" do
     it { should have_selector('title', text: full_title(title)) }
   end
 
+  describe "Profile Page" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { visit user_path(user) }
+    let(:heading) { user.name }
+    let(:title) { user.name }
+
+    it_should_behave_like "All User Pages"
+  end
+
   describe "Sign Up Page" do
     before { visit signup_path }
     let(:heading) { 'Sign Up' }
@@ -60,12 +69,22 @@ describe "User Pages" do
     end
   end
 
-  describe "Profile Page" do
+  describe "edit process" do
     let(:user) { FactoryGirl.create(:user) }
-    before { visit user_path(user) }
-    let(:heading) { user.name }
-    let(:title) { user.name }
+    before { visit edit_user_path(user) }
 
-    it_should_behave_like "All User Pages"
+    describe "edit page" do
+      let(:heading) { 'Update your profile' }
+      let(:title) { 'Edit user' }
+
+      it_should_behave_like "All User Pages"
+      it { should have_link('change', href: 'http://gravatar.com/emails') }
+
+      describe "with invalid information" do
+        before { click_button 'Save changes'}
+
+        it { should have_error_message('error') }
+      end
+    end
   end
 end
