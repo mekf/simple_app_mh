@@ -42,12 +42,19 @@ class UsersController < ApplicationController
     end
   end
 
-  #? where to put private
+  # these will be called before edit, update (before_filter)
+  #q where to put private
   private
     def signed_in_user
-      # redirect_to signin_url, notice: "Please sign in." unless signed_in?
-      redirect_to signin_url unless signed_in?
-      flash[:notice] = "Please sign in."
+      unless signed_in?
+        #r 9.2.3 friendly forwarding
+        # store the location in order to redirect back after signed in
+        stored_location
+
+        # redirect_to signin_url, notice: "Please sign in." unless signed_in?
+        redirect_to signin_url
+        flash[:notice] = "Please sign in."
+      end
     end
 
     def correct_user

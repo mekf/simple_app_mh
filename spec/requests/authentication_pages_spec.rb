@@ -63,6 +63,14 @@ describe "Authentication" do
       describe "visiting Users#edit page" do
         before { visit edit_user_path(@regd_user) }
         it { should have_selector('title', text: 'Sign In') }
+
+        describe "after signing in" do
+          before { filled_valid_signin_info(@regd_user) }
+
+          it "should render the proper Users#edit page" do
+            page.should have_selector('title', text: 'Edit user')
+          end
+        end
       end
 
       describe "submitting a PUT req to Users#update action" do

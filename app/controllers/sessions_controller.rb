@@ -6,7 +6,9 @@ class SessionsController < ApplicationController
     user = User.find_by_email(params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       sign_in user
-      redirect_to user
+
+      #r 9.2.3 friendly forwarding
+      redirect_back_or user
     else
       #not quite right!
       #flash[:error] = 'Invalid email/password combination'
