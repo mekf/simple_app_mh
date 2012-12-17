@@ -30,8 +30,18 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
+  it { should respond_to(:admin) }
 
   it { should be_valid }
+  it { should_not be_admin }
+
+  describe "when user is set to admin" do
+    before do
+      @user.save!
+      @user.toggle!(:admin)
+    end
+    it { should be_admin }
+  end
 
   describe "when name is not presence" do
     before { @user.name = "" }
@@ -53,7 +63,7 @@ describe User do
       # addresses = %w[user@foo,com user_at_foo.org example.user@foo.
       #                foo@bar_baz.com foo@bar+baz.com]
 
-      addresses = invalid_emails(addresses)
+      addresses = invalid_emails(addresses) #utilities.rb
 
       addresses.each do |invalid_address|
         @user.email = invalid_address
@@ -66,7 +76,7 @@ describe User do
     it "should be valid" do
       #addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
 
-      addresses = valid_emails(addresses)
+      addresses = valid_emails(addresses) #utilities.rb
 
       addresses.each do |valid_address|
         @user.email = valid_address
