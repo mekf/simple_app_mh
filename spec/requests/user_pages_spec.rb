@@ -9,7 +9,7 @@ describe "User Pages" do
   # need to sign_in because of the authorization process
   # check before_filter in users_controller
   before do
-    @regd_user = FactoryGirl.create(:user)
+    @regd_user = FactoryGirl.create(:user, email: 'regd_user@example.org')
     sign_in @regd_user
   end
 
@@ -28,10 +28,34 @@ describe "User Pages" do
 
     it_should_behave_like "All User Pages"
 
-    it { should have_selector('div.pagination') }
-    it "should list each user" do
-      User.paginate(page: 1).each do |user|
-        page.should have_selector('li', text: user.name)
+    describe "pagination" do
+      it { should have_selector('div.pagination') }
+      it "should list each user" do
+        User.paginate(page: 1).each do |user|
+          page.should have_selector('li', text: user.name)
+        end
+      end
+    end
+
+    describe "delete link" do
+      it { should_not have_link('delete', href: user_path(User.first)) }
+
+      describe "as Admin user" do
+        let(:admin) { FactoryGirl.create(:admin) }
+        before do
+          #q where to put let
+          # let(:admin) { FactoryGirl.create(:admin) }
+          sign_in admin
+          visit users_path
+        end
+
+        it { should have_link('delete', href: user_path(User.first)) }
+        it "should delete the user" do
+          expect { click_link('delete') }.to change(User, :count).by(-1)
+        end
+        it "should not visiable to admin" do
+          page.should_not have_link('delete'), href: user_path(admin)
+        end
       end
     end
   end
@@ -139,5 +163,4 @@ describe "User Pages" do
     end
   end
 #! EDIT ENDS
-
 end

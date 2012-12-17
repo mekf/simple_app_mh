@@ -5,6 +5,11 @@ FactoryGirl.define do
     password { ('a'..'z').to_a.shuffle[0..5].join }
     password_confirmation { |u| u.password }
     remember_token { SecureRandom.urlsafe_base64 }
+
+    factory :admin do
+      sequence (:email) { |n| "admin_#{n}@admin.org" }
+      admin true
+    end
   end
 
   # factory with sequence
