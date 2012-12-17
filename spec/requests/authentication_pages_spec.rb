@@ -58,16 +58,31 @@ describe "Authentication" do
 #! SIGN IN PROCESS ENDS
 
   describe "authorization" do
-    describe "NON-signed-in-user interactions in the Users controller" do
+    describe "NON-signed-in-user n' Users controller" do
 
-      describe "visiting the edit page" do
+      describe "visiting Users#edit page" do
         before { visit edit_user_path(@regd_user) }
         it { should have_selector('title', text: 'Sign In') }
       end
 
-      describe "submitting to the update action" do
+      describe "submitting a PUT req to Users#update action" do
         before { put user_path(@regd_user) }
         it { response.should redirect_to(signin_path) }
+      end
+    end
+
+    describe "messing with diff user's stuffs" do
+      let(:diff_user) { FactoryGirl.create(:user) }
+      before { sign_in @regd_user }
+
+      describe "visitting Users#edit page" do
+        before { visit edit_user_path(diff_user)}
+        it { should_not have_selector('title', text: "Edit user")}
+      end
+
+      describe "submitting a PUT req to Users#update action" do
+        before { put user_path(diff_user) }
+        it { response.should redirect_to(root_path) }
       end
     end
   end
