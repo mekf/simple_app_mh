@@ -1,14 +1,9 @@
 FactoryGirl.define do
   factory :user do
-    name "Tester"
-    email "tester@testing.com"
-    password "foobar"
-    password_confirmation "foobar"
-    remember_token "L4QywjQ7Taxzc1YehFQGoA"
-
-    factory :signup_user do
-      name "Signup"
-      email "signup@testing.com"
-    end
+    name { Faker::Name.name }
+    email { Faker::Internet.email }
+    password { ('a'..'z').to_a.shuffle[0..7].join }
+    password_confirmation { |u| u.password }
+    remember_token { SecureRandom.urlsafe_base64 }
   end
 end

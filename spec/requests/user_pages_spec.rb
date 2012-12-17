@@ -54,7 +54,7 @@ describe "User Pages" do
 
     describe "with valid information" do
       before do
-        @signup_user = FactoryGirl.build(:signup_user)
+        @signup_user = FactoryGirl.build(:user)
         fill_valid_signup_info(@signup_user) #utilities.rb
       end
 
