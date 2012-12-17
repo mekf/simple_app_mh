@@ -91,6 +91,19 @@ describe "User Pages" do
     before { visit signup_path }
     let(:submit) { "Create my account" }
 
+    describe "already signed in" do
+      before do
+        sign_in @regd_user
+        visit signup_path
+      end
+
+      describe "should be redirected to the root_url" do
+        it { should_not have_content('Create my account') }
+        it { should_not have_selector('title', text: ' | ') }
+        it { should have_selector('h1', text: 'Sample App') }
+      end
+    end
+
     describe "with invalid information" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
