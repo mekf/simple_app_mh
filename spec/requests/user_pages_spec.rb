@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "User Pages" do
 
   subject { page }
-  before { @registered_user = FactoryGirl.create(:user) }
+  before { @regd_user = FactoryGirl.create(:user) }
 
   shared_examples_for "All User Pages" do
     it { should have_selector('h1', text: heading) }
@@ -12,9 +12,9 @@ describe "User Pages" do
   end
 
   describe "Profile Page" do
-    before { visit user_path(@registered_user) }
-    let(:heading) { @registered_user.name }
-    let(:title) { @registered_user.name }
+    before { visit user_path(@regd_user) }
+    let(:heading) { @regd_user.name }
+    let(:title) { @regd_user.name }
 
     it_should_behave_like "All User Pages"
   end
@@ -73,7 +73,7 @@ describe "User Pages" do
 
 #$ EDIT STARTS
   describe "Edit Page" do
-    before { visit edit_user_path(@registered_user) }
+    before { visit edit_user_path(@regd_user) }
     let(:heading) { 'Update your profile' }
     let(:title) { 'Edit user' }
 
@@ -82,7 +82,7 @@ describe "User Pages" do
   end
 
   describe "edit process" do
-    before { visit edit_user_path(@registered_user) }
+    before { visit edit_user_path(@regd_user) }
 
     describe "with invalid information" do
       before { click_button 'Save changes'}
@@ -96,8 +96,8 @@ describe "User Pages" do
       before do
         fill_in "Name", with: new_name
         fill_in "Email", with: new_email
-        fill_in "Password", with: @registered_user.password
-        fill_in "Confirm Password", with: @registered_user.password
+        fill_in "Password", with: @regd_user.password
+        fill_in "Confirm Password", with: @regd_user.password
         click_button 'Save changes'
       end
 
@@ -107,8 +107,8 @@ describe "User Pages" do
       it_should_behave_like "All User Pages"
       it { should have_success_message('updated') }
       it { should have_link('Sign out', href: signout_path) }
-      specify { @registered_user.reload.name.should == new_name }
-      specify { @registered_user.reload.email.should == new_email }
+      specify { @regd_user.reload.name.should == new_name }
+      specify { @regd_user.reload.email.should == new_email }
     end
   end
 #! EDIT ENDS
