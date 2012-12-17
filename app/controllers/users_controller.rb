@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update]
+  before_filter :admin_user, only: :destroy
   # because of correct_user, @user is already defined
   # don't need @user in edit, n' update anymore
 
@@ -41,6 +42,16 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User has been deleted"
+    redirect_to users_url
+  end
+
+  def admin_user
+    redirect_to(root_path) unless current_user.admin?
   end
 
   # these will be called before edit, update (before_filter)

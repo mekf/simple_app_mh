@@ -54,7 +54,7 @@ describe "User Pages" do
           expect { click_link('delete') }.to change(User, :count).by(-1)
         end
         it "should not visiable to admin" do
-          page.should_not have_link('delete'), href: user_path(admin)
+          page.should_not have_link('delete', href: user_path(admin))
         end
       end
     end
