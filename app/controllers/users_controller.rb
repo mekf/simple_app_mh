@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:edit, :update]
+  before_filter :signed_in_user, only: [:index, :edit, :update]
   before_filter :correct_user, only: [:edit, :update]
   # because of correct_user, @user is already defined
   # don't need @user in edit, n' update anymore
 
   def index
-    @user = User.all
+    @users = User.all
   end
 
   def new

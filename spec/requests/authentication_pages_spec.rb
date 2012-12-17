@@ -43,6 +43,8 @@ describe "Authentication" do
       before { filled_valid_signin_info(@regd_user) } #utilities.rb
 
       it { should have_selector('title', text: @regd_user.name) }
+
+      it { should have_link('Users', href: users_path) }
       it { should have_link('Profile', href: user_path(@regd_user)) }
       it { should have_link('Settings', href: edit_user_path(@regd_user)) }
       it { should have_link('Sign out', href: signout_path) }
@@ -76,6 +78,11 @@ describe "Authentication" do
       describe "submitting a PUT req to Users#update action" do
         before { put user_path(@regd_user) }
         it { response.should redirect_to(signin_path) }
+      end
+
+      describe "visitting Users#index page" do
+        before { visit users_path }
+        it { should have_selector('title', text: 'Sign In') }
       end
     end
 
