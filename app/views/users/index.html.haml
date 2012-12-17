@@ -4,8 +4,18 @@
 / #r will paginate
 = will_paginate
 
+/ best way
 %ul.users
-  - @users.each do |user|
-    %li
-      = gravatar_for user, size: 52
-      = link_to user.name, user
+  = render @users
+
+/ 1st way
+/ %ul.users
+/   - @users.each do |user|
+/     %li
+/       = gravatar_for user, size: 52
+/       = link_to user.name, user
+
+/ 2nd way
+/ %ul.users
+/   - @users.each do |user|
+/     = render user
