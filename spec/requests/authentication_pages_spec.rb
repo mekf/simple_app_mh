@@ -57,6 +57,18 @@ describe "Authentication" do
   end
 #! SIGN IN PROCESS ENDS
 
-  # describe "authorization" do
-  # end
+  describe "authorization" do
+    describe "NON-signed-in-user interactions in the Users controller" do
+
+      describe "visiting the edit page" do
+        before { visit edit_user_path(@regd_user) }
+        it { should have_selector('title', text: 'Sign In') }
+      end
+
+      describe "submitting to the update action" do
+        before { put user_path(@regd_user) }
+        it { response.should redirect_to(signin_path) }
+      end
+    end
+  end
 end
