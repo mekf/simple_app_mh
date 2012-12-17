@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :signed_in_user, only: [:edit, :update]
+
   def index
     @user = User.all
   end
@@ -36,4 +38,12 @@ class UsersController < ApplicationController
         render 'edit'
       end
   end
+
+  #? where to put private
+  private
+    def signed_in_user
+      # redirect_to signin_url, notice: "Please sign in." unless signed_in?
+      redirect_to signin_url unless signed_in?
+      flash[:notice] = "Please sign in."
+    end
 end

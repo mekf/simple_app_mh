@@ -34,6 +34,17 @@ def fill_valid_signup_info(user)
   fill_in "Confirmation", with: user.password_confirmation
 end
 
+# use this after before_filter signed_in_user is created
+# it's required for the specs of users_pages_spec to pass
+def sign_in(user)
+  visit signin_path
+  fill_in "Email", with: user.email
+  fill_in "Password", with: user.password
+  click_button "Sign in"
+  # Sign in when not using Capybara as well.
+  cookies[:remember_token] = user.remember_token
+end
+
 RSpec::Matchers.define :have_error_message do |msg|
   match do |page|
     page.should have_selector('div.alert.alert-error', text: msg)

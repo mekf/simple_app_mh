@@ -4,7 +4,14 @@ require 'spec_helper'
 describe "User Pages" do
 
   subject { page }
-  before { @regd_user = FactoryGirl.create(:user) }
+
+  # before { @regd_user = FactoryGirl.create(:user) }
+  # need to sign_in because of the authorization process
+  # check before_filter in users_controller
+  before do
+    @regd_user = FactoryGirl.create(:user)
+    sign_in @regd_user
+  end
 
   shared_examples_for "All User Pages" do
     it { should have_selector('h1', text: heading) }
@@ -13,6 +20,7 @@ describe "User Pages" do
 
   describe "Profile Page" do
     before { visit user_path(@regd_user) }
+
     let(:heading) { @regd_user.name }
     let(:title) { @regd_user.name }
 
@@ -74,6 +82,7 @@ describe "User Pages" do
 #$ EDIT STARTS
   describe "Edit Page" do
     before { visit edit_user_path(@regd_user) }
+
     let(:heading) { 'Update your profile' }
     let(:title) { 'Edit user' }
 
