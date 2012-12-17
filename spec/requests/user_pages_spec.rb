@@ -19,16 +19,18 @@ describe "User Pages" do
   end
 
   describe "Index Page" do
-    before do
-      3.times { FactoryGirl.create(:user) }
-      visit users_path
-    end
+    before(:each) { visit users_path }
+    before(:all) { 30.times { FactoryGirl.create(:user) } }
+    after(:all) { User.delete_all }
+
     let(:title) { 'All Users' }
     let(:heading) { 'All Users' }
 
     it_should_behave_like "All User Pages"
+
+    it { should have_selector('div.pagination') }
     it "should list each user" do
-      User.all.each do |user|
+      User.paginate(page: 1).each do |user|
         page.should have_selector('li', text: user.name)
       end
     end
