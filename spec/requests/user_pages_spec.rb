@@ -16,11 +16,6 @@ describe "User Pages" do
     let(:heading) { @registered_user.name }
     let(:title) { @registered_user.name }
 
-    # let(:user) { FactoryGirl.create(:user) }
-    # before { visit user_path(user) }
-    # let(:heading) { user.name }
-    # let(:title) { user.name }
-
     it_should_behave_like "All User Pages"
   end
 
@@ -77,23 +72,28 @@ describe "User Pages" do
 #! SIGN UP ENDS
 
 #$ EDIT STARTS
-  # describe "Edit Page" do
-  #   let(:user) { FactoryGirl.create(:user) }
-  #   before { visit edit_user_path(user) }
-  #   let(:heading) { 'Update your profile' }
-  #   let(:title) { 'Edit user' }
+  describe "Edit Page" do
+    before { visit edit_user_path(@registered_user) }
+    let(:heading) { 'Update your profile' }
+    let(:title) { 'Edit user' }
 
-  #   it_should_behave_like "All User Pages"
-  #   it { should have_link('change', href: 'http://gravatar.com/emails') }
-  # end
+    it_should_behave_like "All User Pages"
+    it { should have_link('change', href: 'http://gravatar.com/emails') }
+  end
 
-  # describe "edit process" do
-  #    describe "with invalid information" do
-  #       before { click_button 'Save changes'}
+  describe "edit process" do
+    before { visit edit_user_path(@registered_user) }
 
-  #       it { should have_error_message('error') }
-  #   end
-  # end
+    describe "with invalid information" do
+      before { click_button 'Save changes'}
+
+      it { should have_error_message('error') }
+    end
+
+    describe "with valid information" do
+
+    end
+  end
 #! EDIT ENDS
 
 end
