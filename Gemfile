@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.9'
 gem 'bcrypt-ruby', '3.0.1'
+gem 'faker'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -20,7 +21,6 @@ group :development, :test do
 	gem 'pg'
 	gem 'rspec-rails', '2.11.0'
 	gem 'spork', '0.9.0'
-  gem 'faker'
 end
 
 # Gems used only for assets and not required
