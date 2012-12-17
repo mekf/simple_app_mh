@@ -4,6 +4,7 @@ require 'spec_helper'
 describe "User Pages" do
 
   subject { page }
+  before { @registered_user = FactoryGirl.create(:user) }
 
   shared_examples_for "All User Pages" do
     it { should have_selector('h1', text: heading) }
@@ -11,14 +12,19 @@ describe "User Pages" do
   end
 
   describe "Profile Page" do
-    let(:user) { FactoryGirl.create(:user) }
-    before { visit user_path(user) }
-    let(:heading) { user.name }
-    let(:title) { user.name }
+    before { visit user_path(@registered_user) }
+    let(:heading) { @registered_user.name }
+    let(:title) { @registered_user.name }
+
+    # let(:user) { FactoryGirl.create(:user) }
+    # before { visit user_path(user) }
+    # let(:heading) { user.name }
+    # let(:title) { user.name }
 
     it_should_behave_like "All User Pages"
   end
 
+#$ SIGN UP STARTS
   describe "Sign Up Page" do
     before { visit signup_path }
     let(:heading) { 'Sign Up' }
@@ -48,7 +54,7 @@ describe "User Pages" do
 
     describe "with valid information" do
       before do
-        @signup_user = FactoryGirl.build(:user)
+        @signup_user = FactoryGirl.build(:signup_user)
         fill_valid_signup_info(@signup_user) #utilities.rb
       end
 
@@ -68,23 +74,26 @@ describe "User Pages" do
       end
     end
   end
+#! SIGN UP ENDS
 
-  describe "edit process" do
-    let(:user) { FactoryGirl.create(:user) }
-    before { visit edit_user_path(user) }
+#$ EDIT STARTS
+  # describe "Edit Page" do
+  #   let(:user) { FactoryGirl.create(:user) }
+  #   before { visit edit_user_path(user) }
+  #   let(:heading) { 'Update your profile' }
+  #   let(:title) { 'Edit user' }
 
-    describe "edit page" do
-      let(:heading) { 'Update your profile' }
-      let(:title) { 'Edit user' }
+  #   it_should_behave_like "All User Pages"
+  #   it { should have_link('change', href: 'http://gravatar.com/emails') }
+  # end
 
-      it_should_behave_like "All User Pages"
-      it { should have_link('change', href: 'http://gravatar.com/emails') }
+  # describe "edit process" do
+  #    describe "with invalid information" do
+  #       before { click_button 'Save changes'}
 
-      describe "with invalid information" do
-        before { click_button 'Save changes'}
+  #       it { should have_error_message('error') }
+  #   end
+  # end
+#! EDIT ENDS
 
-        it { should have_error_message('error') }
-      end
-    end
-  end
 end
