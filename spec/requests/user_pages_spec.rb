@@ -10,7 +10,6 @@ describe "User Pages" do
   # check before_filter in users_controller
   before do
     @regd_user = FactoryGirl.create(:user, email: 'regd_user@example.org')
-    sign_in @regd_user
   end
 
   shared_examples_for "All User Pages" do
@@ -18,8 +17,18 @@ describe "User Pages" do
     it { should have_selector('title', text: full_title(title)) }
   end
 
+  describe "NON sign-in user" do
+    it "should not have profile, n' edit links" do
+      page.should_not have_link('Profile')
+      page.should_not have_link('Settings')
+    end
+  end
+
   describe "Index Page" do
-    before(:each) { visit users_path }
+    before(:each) do
+      sign_in @regd_user
+      visit users_path
+    end
     before(:all) { 30.times { FactoryGirl.create(:user) } }
     after(:all) { User.delete_all }
 
@@ -123,7 +132,10 @@ describe "User Pages" do
 
 #$ EDIT STARTS
   describe "Edit Page" do
-    before { visit edit_user_path(@regd_user) }
+    before do
+      sign_in @regd_user
+      visit edit_user_path(@regd_user)
+    end
 
     let(:heading) { 'Update your profile' }
     let(:title) { 'Edit user' }
@@ -133,7 +145,10 @@ describe "User Pages" do
   end
 
   describe "edit process" do
-    before { visit edit_user_path(@regd_user) }
+    before do
+      sign_in @regd_user
+      visit edit_user_path(@regd_user)
+    end
 
     describe "with invalid information" do
       before { click_button 'Save changes'}
