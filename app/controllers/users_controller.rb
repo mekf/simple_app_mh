@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update]
-  before_filter :admin_user, only: :destroy
+  before_filter :admin_user, :delete_admin?, only: :destroy
+
   # because of correct_user, @user is already defined
   # don't need @user in edit, n' update anymore
 
@@ -80,5 +81,15 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       redirect_to root_path unless current_user?(@user)
+    end
+
+    # 9.6.9 admin cannot delete self n' other admin
+    def delete_admin?
+      del_user = User.find(params[:id])
+      unless !del_user.admin?
+        flash[:error] = "Admin user cannot be deleted"
+        # redirect_to root_url
+        redirect_to root_path
+      end
     end
 end

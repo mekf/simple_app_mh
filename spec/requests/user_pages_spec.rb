@@ -9,6 +9,7 @@ describe "User Pages" do
   # check before_filter in users_controller
   before do
     @regd_user = FactoryGirl.create(:user, email: 'regd_user@example.org')
+    @admin = FactoryGirl.create(:admin)
   end
 
   shared_examples_for "All User Pages" do
@@ -45,15 +46,27 @@ describe "User Pages" do
       end
     end
 
+    # 9.6.9 admin cannot delete self n' other admin
+    describe "cannot delete self n' other admin" do
+      before do
+        sign_in @admin
+        delete user_path(User.find_by_admin(true))
+      end
+
+      it { response.should redirect_to(root_url) }
+      it { response.should_not redirect_to(users_path) }
+      it { should have_error_message('cannot be deleted') }
+      it { should have_content('cannot be deleted') }
+    end
+
     describe "delete link" do
       it { should_not have_link('delete', href: user_path(User.first)) }
 
       describe "as Admin user" do
-        let(:admin) { FactoryGirl.create(:admin) }
         before do
           #q where to put let
           # let(:admin) { FactoryGirl.create(:admin) }
-          sign_in admin
+          sign_in @admin
           visit users_path
         end
 
@@ -61,8 +74,8 @@ describe "User Pages" do
         it "should delete the user" do
           expect { click_link('delete') }.to change(User, :count).by(-1)
         end
-        it "should not visiable to admin" do
-          page.should_not have_link('delete', href: user_path(admin))
+        it "should not visible to admin" do
+          page.should_not have_link('delete', href: user_path(@admin))
         end
       end
     end
