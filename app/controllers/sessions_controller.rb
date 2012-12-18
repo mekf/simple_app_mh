@@ -10,9 +10,6 @@ class SessionsController < ApplicationController
       #r 9.2.3 friendly forwarding
       redirect_back_or user
     else
-      #not quite right!
-      #flash[:error] = 'Invalid email/password combination'
-
       #flash.now dies as soon as there's another request
       flash.now[:error] = 'Invalid email/password combination'
       render 'new'
