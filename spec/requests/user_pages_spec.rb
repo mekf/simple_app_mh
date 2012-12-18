@@ -76,10 +76,10 @@ describe "User Pages" do
                     flash[:error].should =~ /Cannot delete own admin account!/i }
 
           #q Capybara doesn't direct?
+          #q specify?
           # it { should have_error_message('Cannot delete own admin account!') }
           # it { should have_content('Cannot delete own admin account!') }
         end
-
       end
     end
   end
