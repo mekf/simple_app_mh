@@ -5,7 +5,6 @@ describe "User Pages" do
 
   subject { page }
 
-  # before { @regd_user = FactoryGirl.create(:user) }
   # need to sign_in because of the authorization process
   # check before_filter in users_controller
   before do
@@ -122,7 +121,7 @@ describe "User Pages" do
     describe "with valid information" do
       before do
         @signup_user = FactoryGirl.build(:user)
-        fill_valid_signup_info(@signup_user) #utilities.rb
+        fill_valid_info(@signup_user) #utilities.rb
       end
 
       it "should create a user" do
@@ -158,13 +157,14 @@ describe "User Pages" do
   end
 
   describe "edit process" do
+    let(:submit) { 'Save changes' }
     before do
       sign_in @regd_user
       visit edit_user_path(@regd_user)
     end
 
     describe "with invalid information" do
-      before { click_button 'Save changes'}
+      before { click_button submit }
 
       it { should have_error_message('error') }
     end
@@ -173,11 +173,10 @@ describe "User Pages" do
       let(:new_name) { "New Name" }
       let(:new_email) { "new-email@example.com" }
       before do
-        fill_in "Name", with: new_name
-        fill_in "Email", with: new_email
-        fill_in "Password", with: @regd_user.password
-        fill_in "Confirm Password", with: @regd_user.password
-        click_button 'Save changes'
+        @regd_user.name = new_name
+        @regd_user.email = new_email
+        fill_valid_info(@regd_user)
+        click_button submit
       end
 
       let(:heading) { new_name }
