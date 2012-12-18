@@ -46,26 +46,30 @@ describe "User Pages" do
       end
     end
 
-    # 9.6.9 admin cannot delete self n' other admin
-    describe "cannot delete self n' other admin" do
-      before do
-        sign_in @admin
-        delete user_path(User.find_by_admin(true))
-      end
+    # 9.6.9 admin cannot delete self
+    describe "as Admin user" do
+      before { sign_in @admin }
 
-      it { response.should redirect_to(root_url) }
-      it { response.should_not redirect_to(users_path) }
-      it { should have_error_message('cannot be deleted') }
-      it { should have_content('cannot be deleted') }
+      describe "cannot delete self by DELETE request" do
+        before { delete user_path(@admin) }
+
+        it { response.should redirect_to(root_url) }
+        it { response.should_not redirect_to(users_path) }
+        specify { response.should redirect_to(root_url),
+                  flash[:error].should =~ /Cannot delete own admin account!/i }
+
+        #q Capybara doesn't direct?
+        # it { should have_error_message('Cannot delete own admin account!') }
+        # it { should have_content('Cannot delete own admin account!') }
+      end
     end
 
     describe "delete link" do
       it { should_not have_link('delete', href: user_path(User.first)) }
 
       describe "as Admin user" do
+        #q where to put let
         before do
-          #q where to put let
-          # let(:admin) { FactoryGirl.create(:admin) }
           sign_in @admin
           visit users_path
         end
