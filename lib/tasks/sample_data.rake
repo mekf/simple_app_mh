@@ -13,7 +13,7 @@ namespace :db do
                          password_confirmation: "t3mppassword")
     admin2.toggle!(:admin)
 
-    normal_me = User.create!(name: "Minh Ha Admin2",
+    normal_me = User.create!(name: "Minh Ha Normal",
                          email: "minh.katze@normal.com",
                          password: "t3mppassword",
                          password_confirmation: "t3mppassword")
