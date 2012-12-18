@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
-  before_filter :correct_user, only: [:edit, :update]
-  before_filter :admin_user, only: :destroy
+  before_filter :signed_in_user?, only: [:index, :edit, :update, :destroy]
+  before_filter :correct_user?, only: [:edit, :update]
+  before_filter :admin_user?, :delete_own_admin?, only: :destroy
 
   # because of correct_user, @user is already defined
   # don't need @user in edit, n' update anymore
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    if signed_in?
+    if signed_in? #sessions_helper
       redirect_to root_url
     else
       @user = User.new
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    if signed_in?
+    if signed_in? #sessions_helper
       redirect_to root_url
     else
       @user = User.new(params[:user])
@@ -55,35 +55,29 @@ class UsersController < ApplicationController
 
   def destroy
     # 9.6.9 admin cannot delete self n' other admin
-    del_user = User.find(params[:id])
-    if (current_user == del_user) && (current_user.admin?)
+    if delete_own_admin?
       flash[:error] = "Cannot delete own admin account!"
       redirect_to root_url
     else
-      del_user.destroy
+      @del_user.destroy
       flash[:success] = "User has been deleted"
       redirect_to users_url
     end
 
-    # if del_own_admin?
+    # del_user = User.find(params[:id])
+    # if (current_user == del_user) && (current_user.admin?)
     #   flash[:error] = "Cannot delete own admin account!"
     #   redirect_to root_url
     # else
-    #   user = User.find(params[:id]).destroy
+    #   del_user.destroy
     #   flash[:success] = "User has been deleted"
     #   redirect_to users_url
     # end
-
   end
 
-  def admin_user
-    redirect_to(root_path) unless current_user.admin?
-  end
-
-  # these will be called before edit, update (before_filter)
-  #q where to put private
+  #q why private
   private
-    def signed_in_user
+    def signed_in_user?
       unless signed_in?
         #r 9.2.3 friendly forwarding
         # store the location in order to redirect back after signed in
@@ -95,14 +89,18 @@ class UsersController < ApplicationController
       end
     end
 
-    def correct_user
+    def correct_user?
       @user = User.find(params[:id])
       redirect_to root_path unless current_user?(@user)
     end
 
+    def admin_user?
+      redirect_to(root_path) unless current_user.admin?
+    end
+
     # 9.6.9 admin cannot delete self n' other admin
-    # def del_own_admin?
-    #   del_user = User.find(params[:id])
-    #   current_user == del_user && current_user.admin?
-    # end
+    def delete_own_admin?
+      @del_user = User.find(params[:id])
+      current_user == @del_user && current_user.admin?
+    end
 end
