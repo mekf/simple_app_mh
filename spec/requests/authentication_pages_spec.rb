@@ -60,6 +60,7 @@ describe "Authentication" do
 #! SIGN IN PROCESS ENDS
 
   describe "authorization" do
+    # check for signed_in_user in users_controller
     describe "NON-signed-in-user n' Users controller" do
 
       describe "visiting Users#edit page" do
@@ -72,6 +73,25 @@ describe "Authentication" do
           it "should render the proper Users#edit page" do
             page.should have_selector('title', text: 'Edit user')
           end
+
+          # check for 9.2.3 friendly forwarding
+          describe "no further redirection" do
+            before { visit edit_user_path(@regd_user) }
+            it { should have_selector('title', text: 'Edit user') }
+          end
+
+          describe "when signing in again" do
+            before do
+              delete signout_path
+              visit signin_path
+              filled_valid_signin_info(@regd_user)
+            end
+
+            it "should render the default (profile) page" do
+              page.should have_selector('title', text: @regd_user.name)
+            end
+          end
+          # check for 9.2.3 friendly forwarding ENDS
         end
       end
 
@@ -86,6 +106,7 @@ describe "Authentication" do
       end
     end
 
+    # check for correct_user in users_controller
     describe "messing with diff user's stuffs" do
       let(:diff_user) { FactoryGirl.create(:user) }
       before { sign_in @regd_user }
