@@ -46,26 +46,10 @@ describe "User Pages" do
       end
     end
 
-    # 9.6.9 admin cannot delete self
-    describe "as Admin user" do
-      before { sign_in @admin }
-
-      describe "cannot delete self by DELETE request" do
-        before { delete user_path(@admin) }
-
-        it { response.should redirect_to(root_url) }
-        it { response.should_not redirect_to(users_path) }
-        specify { response.should redirect_to(root_url),
-                  flash[:error].should =~ /Cannot delete own admin account!/i }
-
-        #q Capybara doesn't direct?
-        # it { should have_error_message('Cannot delete own admin account!') }
-        # it { should have_content('Cannot delete own admin account!') }
+    describe "delete process" do
+      it "normal user should have no del_link" do
+        page.should_not have_link('delete', href: user_path(User.first))
       end
-    end
-
-    describe "delete link" do
-      it { should_not have_link('delete', href: user_path(User.first)) }
 
       describe "as Admin user" do
         #q where to put let
@@ -81,6 +65,21 @@ describe "User Pages" do
         it "should not visible to admin" do
           page.should_not have_link('delete', href: user_path(@admin))
         end
+
+        # 9.6.9 admin cannot delete self
+        describe "cannot delete self by DELETE request" do
+          before { delete user_path(@admin) }
+
+          it { response.should redirect_to(root_url) }
+          it { response.should_not redirect_to(users_path) }
+          specify { response.should redirect_to(root_url),
+                    flash[:error].should =~ /Cannot delete own admin account!/i }
+
+          #q Capybara doesn't direct?
+          # it { should have_error_message('Cannot delete own admin account!') }
+          # it { should have_content('Cannot delete own admin account!') }
+        end
+
       end
     end
   end
