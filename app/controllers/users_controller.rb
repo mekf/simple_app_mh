@@ -6,6 +6,9 @@ class UsersController < ApplicationController
   # because of correct_user, @user is already defined
   # don't need @user in edit, n' update anymore
 
+  def troll
+  end
+
   def index
     # @users = User.all
     @users = User.paginate(page: params[:page])

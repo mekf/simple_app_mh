@@ -1,6 +1,11 @@
 SimpleAppMhartlKatze::Application.routes.draw do
-  resources :users
+  resources :users do
+    # get 'troll', to: 'users#troll'
+  end
   resources :sessions, only: [:new, :create, :destroy]
+
+  #troll
+  get 'troll', to: 'users#troll'
 
   #Static_pages
   root to: 'static_pages#home'

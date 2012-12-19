@@ -17,6 +17,18 @@ describe "User Pages" do
     it { should have_selector('title', text: full_title(title)) }
   end
 
+  describe "Troll Page" do
+    before do
+      visit troll_path
+    end
+    let(:heading) { 'Troll Troll Troll Troll Troll' }
+    let(:title) { 'Troll Troll Troll Troll Troll' }
+
+    it_should_behave_like "All User Pages"
+    # specify { response.should have_tag("img") }
+    it { should have_selector('img', alt: 'Troll') }
+  end
+
   describe "NON sign-in user" do
     it "should not have profile, n' edit links" do
       page.should_not have_link('Profile')
