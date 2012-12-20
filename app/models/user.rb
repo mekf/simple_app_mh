@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   attr_accessible :email, :name, :password, :password_confirmation
-  has_many :microposts #10.11
+  has_many :microposts, dependent: :destroy #10.11, #10.16: destroy a user -> no more micro post
 
   #both work
   #before_save { |user| user.email = email.downcase }

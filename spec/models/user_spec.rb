@@ -163,5 +163,14 @@ describe User do
     it "should be arranged newer > older" do
       @user.microposts.should == [newer_micropost, older_micropost]
     end
+
+    it "should destroy associated microposts" do
+      microposts = @user.microposts.dup #q research more about this
+      @user.destroy
+      microposts.should_not be_empty
+      microposts.each do |m|
+        Micropost.find_by_id(m.id).should be_nil
+      end
+    end
   end
 end

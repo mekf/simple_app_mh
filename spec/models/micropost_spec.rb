@@ -10,6 +10,7 @@ describe Micropost do
   let(:user) { FactoryGirl.create(:user) }
   before do
     # @micropost = Micropost.new(content: Faker::Lorem.sentence, user_id: user.id)
+    # @micropost = user.microposts.build(content: Faker::Lorem.sentence)
     @micropost = user.microposts.new(content: Faker::Lorem.sentence)
   end
 
@@ -33,6 +34,16 @@ describe Micropost do
 
   describe "when user_id is not presence" do
     before { @micropost.user_id = nil }
+    it { should_not be_valid }
+  end
+
+  describe "when is blank" do
+    before { @micropost.content = "" }
+    it { should_not be_valid }
+  end
+
+  describe "when is too long" do
+    before { @micropost.content = "a" * 141 }
     it { should_not be_valid }
   end
 end
