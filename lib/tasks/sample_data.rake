@@ -29,9 +29,21 @@ namespace :db do
     end
 
     users = User.all(limit: 6)
-    50.times do
+    # 50.times do
+    #   content = Faker::Lorem.sentence(5)
+    #   users.each { |user| user.microposts.create!(content: content) }
+    # end
+
+    # This will only work with 'created_at' added to attr_accessible
+    30.times do
       content = Faker::Lorem.sentence(5)
-      users.each { |user| user.microposts.create!(content: content) }
+      day_random = rand(1..365).day.ago
+      users.each { |user| user.microposts.create!(content: content, created_at: day_random) }
+    end
+    20.times do
+      content = Faker::Lorem.sentence(5)
+      hour_random = rand(1..360).hour.ago
+      users.each { |user| user.microposts.create!(content: content, created_at: hour_random) }
     end
   end
 end

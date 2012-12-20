@@ -8,8 +8,9 @@
   .span8
     - if @user.microposts.any?
       %h3
-        Microposts
+        Microposts (
         = @user.microposts.count
+        )
       %ol.microposts
         = render @microposts
     = will_paginate @microposts
