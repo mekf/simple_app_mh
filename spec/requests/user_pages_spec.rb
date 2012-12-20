@@ -97,12 +97,18 @@ describe "User Pages" do
   end
 
   describe "Profile Page" do
+    let!(:msg1) { FactoryGirl.create(:micropost, user: @regd_user) }
+    let!(:msg2) { FactoryGirl.create(:micropost, user: @regd_user) }
+
     before { visit user_path(@regd_user) }
 
     let(:heading) { @regd_user.name }
     let(:title) { @regd_user.name }
 
     it_should_behave_like "All User Pages"
+    it { should have_content(msg1.content) }
+    it { should have_content(msg2.content) }
+    it { should have_content(@regd_user.microposts.count) }
   end
 
 #$ SIGN UP STARTS
