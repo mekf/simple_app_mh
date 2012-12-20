@@ -22,7 +22,7 @@ end
 group :development, :test do
 	gem 'pg'
 	gem 'rspec-rails', '2.11.0'
-	gem 'spork', '0.9.0'
+	gem 'spork'
 end
 
 # Gems used only for assets and not required

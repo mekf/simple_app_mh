@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   attr_accessible :email, :name, :password, :password_confirmation
+  has_many :microposts #10.11
 
   #both work
   #before_save { |user| user.email = email.downcase }

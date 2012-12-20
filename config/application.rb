@@ -64,5 +64,8 @@ module SimpleAppMhartlKatze
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Listing 10.6. Ensuring that Rails throws errors on invalid mass assignment.
+    config.active_record.whitelist_attributes = true
   end
 end
