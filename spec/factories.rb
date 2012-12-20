@@ -23,6 +23,8 @@ FactoryGirl.define do
 
   factory :micropost do
     content { Faker::Lorem.sentence }
-    user_id { rand(0..99) }
+    # user_id { rand(0..99) } # fail as the user_id cannot be manually assigned
+    user
+    created_at { rand(0..9).hour.ago }
   end
 end

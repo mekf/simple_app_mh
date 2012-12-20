@@ -11,7 +11,6 @@ describe Micropost do
   before do
     # @micropost = Micropost.new(content: Faker::Lorem.sentence, user_id: user.id)
     @micropost = user.microposts.new(content: Faker::Lorem.sentence)
-    # @micropost = FactoryGirl.create(:micropost, user_id: user.id)
   end
 
   subject { @micropost }
@@ -24,7 +23,9 @@ describe Micropost do
   describe "accessible attributes" do
     it "should not allow manual access to user_id" do
       expect do
+        #q FactoryGirl is not working in this case.
         # FactoryGirl.build(:micropost, user_id: user.id)
+
         Micropost.new(content: Faker::Lorem.sentence, user_id: user.id)
       end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
     end

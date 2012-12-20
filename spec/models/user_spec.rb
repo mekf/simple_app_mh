@@ -150,4 +150,18 @@ describe User do
     its(:remember_token) { should_not be_blank }
     #it { @user.remember_token.should_not be_blank }
   end
+
+  describe "microposts associations" do
+    before { @user.save }
+    let!(:newer_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+    end
+    let!(:older_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+    end
+
+    it "should be arranged newer > older" do
+      @user.microposts.should == [newer_micropost, older_micropost]
+    end
+  end
 end
