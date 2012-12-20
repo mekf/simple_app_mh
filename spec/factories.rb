@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :user do
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    password { ('a'..'z').to_a.shuffle[0..5].join }
+    password { Faker::Lorem.characters(6) }
     password_confirmation { |u| u.password }
     remember_token { SecureRandom.urlsafe_base64 }
 
@@ -20,4 +20,9 @@ FactoryGirl.define do
   #   password_confirmation { |u| u.password }
   #   remember_token { SecureRandom.urlsafe_base64 }
   # end
+
+  factory :micropost do
+    content { Faker::Lorem.sentence}
+    user_id
+  end
 end
