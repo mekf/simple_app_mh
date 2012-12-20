@@ -22,7 +22,7 @@ FactoryGirl.define do
   # end
 
   factory :micropost do
-    content { Faker::Lorem.sentence}
-    user_id
+    content { Faker::Lorem.sentence }
+    user_id { rand(0..99) }
   end
 end
