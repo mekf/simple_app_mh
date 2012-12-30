@@ -30,6 +30,18 @@ module SessionsHelper
     cookies.delete(:remember_token)
   end
 
+  def signed_in_user?
+    unless signed_in?
+      #r 9.2.3 friendly forwarding
+      # store the location in order to redirect back after signed in
+      stored_location
+
+      # redirect_to signin_url, notice: "Please sign in." unless signed_in?
+      redirect_to signin_url
+      flash[:notice] = "Please sign in."
+    end
+  end
+
   #r 9.2.3 friendly forwarding
   def stored_location
     session[:return_to] = request.url

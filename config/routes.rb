@@ -1,8 +1,11 @@
 SimpleAppMhartlKatze::Application.routes.draw do
-  resources :users do
-    # get 'troll', to: 'users#troll'
-  end
+  get "microposts/create"
+
+  get "microposts/destroy"
+
+  resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :microposts, only: [:create, :destroy]
 
   #troll
   get 'troll', to: 'users#troll'
