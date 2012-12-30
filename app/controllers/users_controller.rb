@@ -81,17 +81,20 @@ class UsersController < ApplicationController
 
   #q why private
   private
-    def signed_in_user?
-      unless signed_in?
-        #r 9.2.3 friendly forwarding
-        # store the location in order to redirect back after signed in
-        stored_location
+    # listing 10.27 | moving to session_helper
+    # because we also need this one for 2 controllers: Users n' Microposts
+    
+    # def signed_in_user?
+    #   unless signed_in?
+    #     #r 9.2.3 friendly forwarding
+    #     # store the location in order to redirect back after signed in
+    #     stored_location
 
-        # redirect_to signin_url, notice: "Please sign in." unless signed_in?
-        redirect_to signin_url
-        flash[:notice] = "Please sign in."
-      end
-    end
+    #     # redirect_to signin_url, notice: "Please sign in." unless signed_in?
+    #     redirect_to signin_url
+    #     flash[:notice] = "Please sign in."
+    #   end
+    # end
 
     def correct_user?
       @user = User.find(params[:id])
