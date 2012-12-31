@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :password, :password_confirmation
   has_many :microposts, dependent: :destroy #10.11, #10.16: destroy a user -> no more micro post
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy #11.4
+  has_many :followed_users, through: :relationships, source: :followed #11.1.4, overwire followed as followed_users
 
   #both work
   #before_save { |user| user.email = email.downcase }
@@ -35,6 +36,18 @@ class User < ActiveRecord::Base
   def feed
     # This is preliminary. See "Following users" for the full implementation.
     Micropost.where("user_id = ?", id)
+  end
+
+  def following?(other_user)
+    relationships.find_by_followed_id(other_user.id)
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  def unfollow!(other_user)
+    relationships.find_by_followed_id(other_user.id).destroy
   end
 
   private
