@@ -18,7 +18,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :password, :password_confirmation
   has_many :microposts, dependent: :destroy #10.11, #10.16: destroy a user -> no more micro post
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy #11.4
-  has_many :followed_users, through: :relationships, source: :followed #11.1.4, overwire followed as followed_users
+  has_many :followed_users, through: :relationships, source: :followed #11.14, overwire followed as followed_users
+  has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy #11.16
+  has_many :followers, through: :reverse_relationships, source: :follower
 
   #both work
   #before_save { |user| user.email = email.downcase }
