@@ -33,8 +33,9 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
-  it { should respond_to(:microposts) } # 10.9
+  it { should respond_to(:microposts) } #10.9
   it { should respond_to(:feed) } #10.38
+  it { should respond_to(:relationships) } #11.3
 
   it { should be_valid }
   it { should_not be_admin }

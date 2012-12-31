@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :name, :password, :password_confirmation
   has_many :microposts, dependent: :destroy #10.11, #10.16: destroy a user -> no more micro post
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy #11.4
 
   #both work
   #before_save { |user| user.email = email.downcase }
