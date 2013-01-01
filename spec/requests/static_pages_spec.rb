@@ -49,6 +49,17 @@ describe "Static Pages" do
           page.should have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      describe "relationship status" do
+      	let(:other_user) { FactoryGirl.create(:user) }
+      	before do
+      		user.follow!(other_user)
+      		visit root_path
+      	end
+
+      	it { should have_link("0 follower", href: followers_user_path(user)) }
+      	it { should have_link("1 following", href: following_user_path(user)) }
+      end
     end
 	end
 
