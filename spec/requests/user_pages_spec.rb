@@ -225,4 +225,31 @@ describe "User Pages" do
     end
   end
 #! EDIT ENDS
+
+  describe "following/followers" do
+    let(:other_user) { FactoryGirl.create(:user) }
+    before { @regd_user.follow!(other_user) }
+
+    describe "followed users" do
+      before do
+        sign_in @regd_user
+        visit following_user_path(@regd_user)
+      end
+
+      it { should have_selector('title', text: full_title('Following')) }
+      it { should have_selector('h3', text: 'Following') }
+      it { should have_link(other_user.name, href: user_path(other_user)) }
+    end
+
+    describe "followers" do
+      before do
+        sign_in other_user
+        visit followers_user_path(other_user)
+      end
+
+      it { should have_selector('title', text: full_title('Followers')) }
+      it { should have_selector('h3', text: 'Followers') }
+      it { should have_link(@regd_user.name, href: user_path(@regd_user)) }
+    end
+  end
 end

@@ -63,6 +63,16 @@ describe "Authentication" do
     # check for signed_in_user in users_controller
     describe "NON-signed-in-user n' Users controller" do
 
+      describe "visiting the following page" do
+        before { visit following_user_path(@regd_user) }
+        it { should have_selector('title', text: 'Sign In') }
+      end
+
+      describe "visiting the followers page" do
+        before { visit followers_user_path(@regd_user) }
+        it { should have_selector('title', text: 'Sign In') }
+      end
+
       describe "visiting Users#edit page" do
         before { visit edit_user_path(@regd_user) }
         it { should have_selector('title', text: 'Sign In') }

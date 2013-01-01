@@ -1,0 +1,28 @@
+describe "profile page" do
+  - create a normal user
+    describe "follow/unfollow buttons" do
+      - create another user
+      - signin normal user
+
+      describe "following a user" do
+        - visit the profile of the other user
+        before { visit user_path(other_user) }
+
+        it "should increment the followed user count" do
+          expect do
+            - click button "Follow"
+            - count of "followed_users" of the current user to increase by 1
+
+        it "should increment the other user's followers count" do
+          expect do
+            - click button "Follow"
+            - count of "follower" of the other_user to increase by 1
+
+        describe "toggling the button" do
+          - click button Follow
+          - the button change to 'Unfollow'
+
+      describe "unfollowing a user" do
+        it "should decrement the followed user count" do
+        it "should decrement the other user's followers count" do
+        describe "toggling the button" do
