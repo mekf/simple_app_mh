@@ -73,6 +73,18 @@ describe "Authentication" do
         it { should have_selector('title', text: 'Sign In') }
       end
 
+      describe "in the Relationships controller" do
+        describe "submitting to the create action" do
+          before { post relationships_path }
+          specify { response.should redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete relationship_path(1) }
+          specify { response.should redirect_to(signin_path) }          
+        end
+      end
+
       describe "visiting Users#edit page" do
         before { visit edit_user_path(@regd_user) }
         it { should have_selector('title', text: 'Sign In') }
