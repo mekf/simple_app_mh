@@ -1,6 +1,12 @@
 namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
+    make_users
+    make_microposts
+    make_relationships
+  end
+
+  def make_users
     admin1 = User.create!(name: "Minh Ha",
                          email: "nhat.minh.ha@gmail.com",
                          password: "t3mppassword",
@@ -27,7 +33,9 @@ namespace :db do
                    password: password,
                    password_confirmation: password)
     end
+  end
 
+  def make_microposts
     users = User.all(limit: 6)
     # 50.times do
     #   content = Faker::Lorem.sentence(5)
@@ -45,5 +53,14 @@ namespace :db do
       hour_random = rand(1..360).hour.ago
       users.each { |user| user.microposts.create!(content: content, created_at: hour_random) }
     end
+  end
+
+  def make_relationships #11.17
+    users = User.all
+    user = users.first
+    followed_users = users[2..50]
+    followers      = users[3..40]
+    followed_users.each { |followed| user.follow!(followed) } 
+    followers.each      { |follower| follower.follow!(user) }
   end
 end
